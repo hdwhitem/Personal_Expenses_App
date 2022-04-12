@@ -5,7 +5,6 @@ class Book {
   final double price;
   final String imageUrl;
   final String date;
-  bool isFavorite;
 
   Book({
     required this.id,
@@ -14,6 +13,5 @@ class Book {
     required this.price,
     required this.imageUrl,
     required this.date,
-    this.isFavorite = false,
   });
 }
