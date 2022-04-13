@@ -9,41 +9,46 @@ class BookList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: books.map((e) {
-        return Card(
-            child: Row(
-          children: <Widget>[
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.purple, width: 2)),
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                '\$${e.price}',
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Colors.red),
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  e.title,
+    return Container(
+      height: 550,
+      child: ListView.builder(
+        itemBuilder: (ctx, index) {
+          return Card(
+              child: Row(
+            children: <Widget>[
+              Container(
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.purple, width: 2)),
+                padding: const EdgeInsets.all(10),
+                child: Text(
+                  '\$${books[index].price}',
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 16),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.red),
                 ),
-                Text(
-                  e.date,
-                  style: const TextStyle(color: Colors.grey),
-                )
-              ],
-            )
-          ],
-        ));
-      }).toList(),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    books[index].title,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  Text(
+                    books[index].date,
+                    style: const TextStyle(color: Colors.grey),
+                  )
+                ],
+              )
+            ],
+          ));
+        },
+        itemCount: books.length,
+      ),
     );
   }
 }
