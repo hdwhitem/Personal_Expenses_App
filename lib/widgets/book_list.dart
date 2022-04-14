@@ -23,7 +23,7 @@ class BookList extends StatelessWidget {
                     border: Border.all(color: Colors.purple, width: 2)),
                 padding: const EdgeInsets.all(10),
                 child: Text(
-                  '\$${books[index].price}',
+                  '\$${books[index].price.toStringAsFixed(2)}',
                   style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,

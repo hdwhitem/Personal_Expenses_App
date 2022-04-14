@@ -9,6 +9,19 @@ class NewBook extends StatelessWidget {
 
   NewBook({Key? key, required this.addTx}) : super(key: key);
 
+  void submitData() {
+    final enteredTitle = titleController.text;
+    final enteredPrice = priceController.text;
+
+    if (enteredTitle.isEmpty || enteredPrice.isEmpty) {
+      return;
+    } else if (double.parse(enteredPrice) <= 0) {
+      return;
+    }
+
+    addTx(enteredTitle, double.parse(enteredPrice));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -19,19 +32,19 @@ class NewBook extends StatelessWidget {
           TextField(
             decoration: const InputDecoration(labelText: 'Title'),
             controller: titleController,
+            onSubmitted: (_) => submitData,
           ),
           TextField(
             decoration: const InputDecoration(labelText: 'Price'),
             controller: priceController,
+            keyboardType: TextInputType.number,
+            onSubmitted: (_) => submitData,
           ),
           TextButton(
             child: const Text('Add Book'),
             style: TextButton.styleFrom(primary: Colors.blue),
-            // ignore: avoid_print
             onPressed: () {
-              addTx(titleController.text, double.parse(priceController.text));
-              // ignore: avoid_print
-              print('${titleController.text} y ${priceController.text}');
+              submitData();
             },
           ),
         ]),
