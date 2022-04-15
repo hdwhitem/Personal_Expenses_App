@@ -11,6 +11,12 @@ class BooksOverviewScreen extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Flutter App'),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () {},
+            )
+          ],
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -26,6 +32,11 @@ class BooksOverviewScreen extends StatelessWidget {
                 ),
                 UserBook(),
               ]),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () {},
         ),
       ),
     );

@@ -40,12 +40,17 @@ class NewBook extends StatelessWidget {
             keyboardType: TextInputType.number,
             onSubmitted: (_) => submitData,
           ),
-          TextButton(
-            child: const Text('Add Book'),
-            style: TextButton.styleFrom(primary: Colors.blue),
-            onPressed: () {
-              submitData();
-            },
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              TextButton(
+                child: const Text('Add Book'),
+                style: TextButton.styleFrom(primary: Colors.blue),
+                onPressed: () {
+                  submitData();
+                },
+              ),
+            ],
           ),
         ]),
       ),
