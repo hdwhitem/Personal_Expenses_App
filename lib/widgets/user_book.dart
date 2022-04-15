@@ -11,7 +11,7 @@ class UserBook extends StatefulWidget {
 }
 
 class _UserBookState extends State<UserBook> {
-  late Book newBk;
+  late final Book newBk;
   final List<Book> _userBooks = [
     Book(
       id: 'p1',

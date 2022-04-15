@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 
 // ignore: use_key_in_widget_constructors
-class NewBook extends StatelessWidget {
+class NewBook extends StatefulWidget {
   final Function addTx;
 
-  final titleController = TextEditingController();
-  final priceController = TextEditingController();
-
   NewBook({Key? key, required this.addTx}) : super(key: key);
+
+  @override
+  State<NewBook> createState() => _NewBookState();
+}
+
+class _NewBookState extends State<NewBook> {
+  final titleController = TextEditingController();
+
+  final priceController = TextEditingController();
 
   void submitData() {
     final enteredTitle = titleController.text;
@@ -19,7 +25,8 @@ class NewBook extends StatelessWidget {
       return;
     }
 
-    addTx(enteredTitle, double.parse(enteredPrice));
+    widget.addTx(enteredTitle, double.parse(enteredPrice));
+    Navigator.of(context).pop();
   }
 
   @override
