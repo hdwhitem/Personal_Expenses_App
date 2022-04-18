@@ -20,14 +20,18 @@ class BookList extends StatelessWidget {
                 margin:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                 decoration: BoxDecoration(
-                    border: Border.all(color: Colors.purple, width: 2)),
+                    border: Border.all(
+                  color: Theme.of(context).primaryColor,
+                  width: 2,
+                )),
                 padding: const EdgeInsets.all(10),
                 child: Text(
                   '\$${books[index].price.toStringAsFixed(2)}',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Colors.red),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
               ),
               Column(
@@ -40,7 +44,9 @@ class BookList extends StatelessWidget {
                   ),
                   Text(
                     books[index].date,
-                    style: const TextStyle(color: Colors.grey),
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
                   )
                 ],
               )

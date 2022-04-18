@@ -109,6 +109,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Books.me',
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+      ),
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Flutter App'),
