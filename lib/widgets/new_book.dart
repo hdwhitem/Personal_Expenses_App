@@ -51,8 +51,10 @@ class _NewBookState extends State<NewBook> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               TextButton(
-                child: const Text('Add Book'),
-                style: TextButton.styleFrom(primary: Colors.blue),
+                child: Text('Add Book'),
+                style: TextButton.styleFrom(
+                  primary: Colors.purple,
+                ),
                 onPressed: () {
                   submitData();
                 },

@@ -1,7 +1,6 @@
 import 'widgets/book_list.dart';
 import 'widgets/new_book.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import 'models/book.dart';
 
@@ -48,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
         id: '2222',
         imageUrl:
             'https://cdn.pixabay.com/photo/2015/11/19/21/10/glasses-1052010_960_720.jpg',
-        date: DateFormat.yMMMEd().format(DateTime.now()).toString(),
+        date: DateTime.now(),
       );
       _userBooks.add(newBk);
     });
@@ -77,6 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
       title: 'Books.me',
       theme: ThemeData(
         primarySwatch: Colors.purple,
+        accentColor: Colors.amber,
       ),
       home: Scaffold(
         appBar: AppBar(

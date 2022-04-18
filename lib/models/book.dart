@@ -4,7 +4,7 @@ class Book {
   final String description;
   final double price;
   final String imageUrl;
-  final String date;
+  final DateTime date;
 
   Book({
     required this.id,

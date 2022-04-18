@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../models/book.dart';
 
 // ignore: use_key_in_widget_constructors
@@ -24,44 +25,30 @@ class BookList extends StatelessWidget {
           : ListView.builder(
               itemBuilder: (ctx, index) {
                 return Card(
-                    child: Row(
-                  children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 15),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                        color: Theme.of(context).primaryColor,
-                        width: 2,
-                      )),
-                      padding: const EdgeInsets.all(10),
-                      child: Text(
-                        '\$${books[index].price.toStringAsFixed(2)}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Theme.of(context).primaryColor,
+                  elevation: 5,
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 4,
+                    horizontal: 8,
+                  ),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6),
+                        child: FittedBox(
+                          child: Text('\$${books[index].price}'),
                         ),
                       ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          books[index].title,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                        ),
-                        Text(
-                          books[index].date,
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ));
+                    title: Text(
+                      books[index].title,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    subtitle: Text(
+                      DateFormat.yMMMd().format((books[index].date)),
+                    ),
+                  ),
+                );
               },
               itemCount: books.length,
             ),

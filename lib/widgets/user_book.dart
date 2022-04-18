@@ -18,9 +18,7 @@ class _UserBookState extends State<UserBook> {
       title: 'Beginning Flutter With Dart',
       description: 'You can learn Flutter as well Dart.',
       price: 9.99,
-      date: DateFormat.yMMMEd().format(
-        DateTime.now(),
-      ),
+      date: DateTime.now(),
       imageUrl:
           'https://cdn.pixabay.com/photo/2014/09/05/18/32/old-books-436498_960_720.jpg',
     ),
@@ -29,9 +27,7 @@ class _UserBookState extends State<UserBook> {
       title: 'Flutter State Management',
       description: 'Everything you should know about Flutter State.',
       price: 9.99,
-      date: DateFormat.yMMMEd().format(
-        DateTime.now(),
-      ),
+      date: DateTime.now(),
       imageUrl:
           'https://cdn.pixabay.com/photo/2016/09/10/17/18/book-1659717_960_720.jpg',
     ),
@@ -41,9 +37,7 @@ class _UserBookState extends State<UserBook> {
       description:
           'WordPress coding is not difficult, in fact it is interesting.',
       price: 9.99,
-      date: DateFormat.yMMMEd().format(
-        DateTime.now(),
-      ),
+      date: DateTime.now(),
       imageUrl:
           'https://cdn.pixabay.com/photo/2015/11/19/21/10/glasses-1052010_960_720.jpg',
     ),
@@ -58,7 +52,7 @@ class _UserBookState extends State<UserBook> {
         id: '2222',
         imageUrl:
             'https://cdn.pixabay.com/photo/2015/11/19/21/10/glasses-1052010_960_720.jpg',
-        date: DateFormat.yMMMEd().format(DateTime.now()).toString(),
+        date: DateTime.now(),
       );
       _userBooks.add(newBk);
     });
