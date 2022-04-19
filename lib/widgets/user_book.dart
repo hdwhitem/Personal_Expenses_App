@@ -62,7 +62,7 @@ class _UserBookState extends State<UserBook> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        NewBook(addTx: _addNewBook),
+        // NewBook(addTx: _addNewBook),
       ],
     );
   }

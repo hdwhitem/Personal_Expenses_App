@@ -15,7 +15,7 @@ class _NewBookState extends State<NewBook> {
 
   final priceController = TextEditingController();
 
-  void submitData() {
+  void _submitData() {
     final enteredTitle = titleController.text;
     final enteredPrice = priceController.text;
 
@@ -29,6 +29,14 @@ class _NewBookState extends State<NewBook> {
     Navigator.of(context).pop();
   }
 
+  void _presentDatePicker() {
+    showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2022),
+        lastDate: DateTime.now());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -39,24 +47,37 @@ class _NewBookState extends State<NewBook> {
           TextField(
             decoration: const InputDecoration(labelText: 'Title'),
             controller: titleController,
-            onSubmitted: (_) => submitData,
+            onSubmitted: (_) => _submitData,
           ),
           TextField(
             decoration: const InputDecoration(labelText: 'Price'),
             controller: priceController,
             keyboardType: TextInputType.number,
-            onSubmitted: (_) => submitData,
+            onSubmitted: (_) => _submitData,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              TextButton(
+                child: Text('Choose Date'),
+                style: TextButton.styleFrom(
+                  primary: Theme.of(context).primaryColor,
+                ),
+                onPressed: _presentDatePicker,
+              ),
+            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              TextButton(
+              ElevatedButton(
                 child: Text('Add Book'),
-                style: TextButton.styleFrom(
-                  primary: Colors.purple,
+                style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).primaryColor,
+                  onPrimary: Theme.of(context).textTheme.button!.color,
                 ),
                 onPressed: () {
-                  submitData();
+                  _submitData();
                 },
               ),
             ],

@@ -18,10 +18,17 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      // Remove the debug banner
+    return MaterialApp(
+      title: 'MyApp',
+      theme: ThemeData(
+          primarySwatch: Colors.purple,
+          accentColor: Colors.amber,
+          fontFamily: 'Quicksand',
+          textTheme: ThemeData.light().textTheme.copyWith(
+                  button: const TextStyle(
+                color: Colors.white,
+              ))),
       debugShowCheckedModeBanner: false,
-      title: 'Kindacode.com',
       home: HomeScreen(),
     );
   }
@@ -58,7 +65,8 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 2,
         backgroundColor: Colors.grey,
         context: ctx,
-        builder: (ctx) => Container(
+        builder: (BuildContext ctx) {
+          return Container(
             width: 300,
             height: 550,
             child: GestureDetector(
@@ -67,7 +75,9 @@ class _HomeScreenState extends State<HomeScreen> {
               child: NewBook(
                 addTx: _addNewBook,
               ),
-            )));
+            ),
+          );
+        });
   }
 
   void _deleteTransaction(String id) {
@@ -78,45 +88,38 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Books.me',
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-        accentColor: Colors.amber,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Flutter App'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () => _startAddNewBook(context),
+          )
+        ],
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Flutter App'),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () => _startAddNewBook(context),
-            )
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-              //mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Container(
-                  child: const Card(
-                    color: Colors.blue,
-                    elevation: 5,
-                    child: Text('Chart'),
-                  ),
+      body: SingleChildScrollView(
+        child: Column(
+            //mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Container(
+                child: const Card(
+                  color: Colors.purple,
+                  elevation: 5,
+                  child: Text('Chart'),
                 ),
-                BookList(
-                  books: _userBooks,
-                  deleteTx: _deleteTransaction,
-                ),
-              ]),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          onPressed: () => _startAddNewBook(context),
-        ),
+              ),
+              BookList(
+                books: _userBooks,
+                deleteTx: _deleteTransaction,
+              ),
+            ]),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () => _startAddNewBook(context),
       ),
     );
   }
