@@ -5,8 +5,10 @@ import '../models/book.dart';
 // ignore: use_key_in_widget_constructors
 class BookList extends StatelessWidget {
   final List<Book> books;
+  final Function deleteTx;
 
-  const BookList({Key? key, required this.books}) : super(key: key);
+  BookList({Key? key, required this.books, required this.deleteTx})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,11 @@ class BookList extends StatelessWidget {
                     ),
                     subtitle: Text(
                       DateFormat.yMMMd().format((books[index].date)),
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      color: Theme.of(context).errorColor,
+                      onPressed: () => deleteTx(books[index].id),
                     ),
                   ),
                 );

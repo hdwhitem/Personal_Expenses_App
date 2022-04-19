@@ -70,6 +70,12 @@ class _HomeScreenState extends State<HomeScreen> {
             )));
   }
 
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userBooks.removeWhere((tx) => tx.id == id);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -100,7 +106,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Text('Chart'),
                   ),
                 ),
-                BookList(books: _userBooks),
+                BookList(
+                  books: _userBooks,
+                  deleteTx: _deleteTransaction,
+                ),
               ]),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

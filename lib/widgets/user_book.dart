@@ -63,7 +63,6 @@ class _UserBookState extends State<UserBook> {
     return Column(
       children: <Widget>[
         NewBook(addTx: _addNewBook),
-        BookList(books: _userBooks)
       ],
     );
   }
