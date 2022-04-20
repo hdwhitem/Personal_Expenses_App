@@ -1,3 +1,5 @@
+import 'widgets/chart.dart';
+
 import 'widgets/book_list.dart';
 import 'widgets/new_book.dart';
 import 'package:flutter/material.dart';
@@ -43,21 +45,41 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late Book newBk;
-  final List<Book> _userBooks = [];
+  final List<Book> _userBooks = [
+    Book(
+      id: 'p1',
+      title: 'Beginning Flutter With Dart',
+      description: 'You can learn Flutter as well Dart.',
+      price: 9.99,
+      date: DateTime.now(),
+      imageUrl:
+          'https://cdn.pixabay.com/photo/2014/09/05/18/32/old-books-436498_960_720.jpg',
+    ),
+  ];
 
-  void _addNewBook(String txTitle, double txPrice) {
+  void _addNewBook(String txTitle, double txPrice, DateTime chosenDate) {
     setState(() {
       newBk = Book(
         title: txTitle,
         price: txPrice,
         description: 'Flutter State Management',
-        id: '2222',
+        id: DateTime.now().toString(),
         imageUrl:
             'https://cdn.pixabay.com/photo/2015/11/19/21/10/glasses-1052010_960_720.jpg',
-        date: DateTime.now(),
+        date: chosenDate,
       );
       _userBooks.add(newBk);
     });
+  }
+
+  List<Book> get _recentTransactions {
+    return _userBooks.where((Tx) {
+      return Tx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(days: 7),
+        ),
+      );
+    }).toList();
   }
 
   void _startAddNewBook(BuildContext ctx) {
@@ -103,13 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
             //mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Container(
-                child: const Card(
-                  color: Colors.purple,
-                  elevation: 5,
-                  child: Text('Chart'),
-                ),
-              ),
+              Chart(recentTransactions: _recentTransactions),
               BookList(
                 books: _userBooks,
                 deleteTx: _deleteTransaction,

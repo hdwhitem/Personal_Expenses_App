@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 // ignore: use_key_in_widget_constructors
 class NewBook extends StatefulWidget {
@@ -11,13 +12,13 @@ class NewBook extends StatefulWidget {
 }
 
 class _NewBookState extends State<NewBook> {
-  final titleController = TextEditingController();
-
-  final priceController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _priceController = TextEditingController();
+  DateTime _selectDate = DateTime.now();
 
   void _submitData() {
-    final enteredTitle = titleController.text;
-    final enteredPrice = priceController.text;
+    final enteredTitle = _titleController.text;
+    final enteredPrice = _priceController.text;
 
     if (enteredTitle.isEmpty || enteredPrice.isEmpty) {
       return;
@@ -25,16 +26,24 @@ class _NewBookState extends State<NewBook> {
       return;
     }
 
-    widget.addTx(enteredTitle, double.parse(enteredPrice));
+    widget.addTx(enteredTitle, double.parse(enteredPrice), _selectDate);
     Navigator.of(context).pop();
   }
 
   void _presentDatePicker() {
     showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2022),
-        lastDate: DateTime.now());
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2022),
+      lastDate: DateTime.now(),
+    ).then((pickDate) {
+      if (pickDate == null) {
+        return;
+      }
+      setState(() {
+        _selectDate = pickDate;
+      });
+    });
   }
 
   @override
@@ -46,26 +55,34 @@ class _NewBookState extends State<NewBook> {
         child: Column(children: <Widget>[
           TextField(
             decoration: const InputDecoration(labelText: 'Title'),
-            controller: titleController,
+            controller: _titleController,
             onSubmitted: (_) => _submitData,
           ),
           TextField(
             decoration: const InputDecoration(labelText: 'Price'),
-            controller: priceController,
+            controller: _priceController,
             keyboardType: TextInputType.number,
             onSubmitted: (_) => _submitData,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              TextButton(
-                child: Text('Choose Date'),
-                style: TextButton.styleFrom(
-                  primary: Theme.of(context).primaryColor,
+          Container(
+            height: 80,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    'Picked Date: ${DateFormat.yMEd().format(_selectDate)}',
+                  ),
                 ),
-                onPressed: _presentDatePicker,
-              ),
-            ],
+                TextButton(
+                  child: Text('Choose Date'),
+                  style: TextButton.styleFrom(
+                    primary: Theme.of(context).primaryColor,
+                  ),
+                  onPressed: _presentDatePicker,
+                ),
+              ],
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
