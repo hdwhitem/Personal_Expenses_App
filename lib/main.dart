@@ -110,25 +110,37 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appBar = AppBar(
+      title: const Text('Flutter App'),
+      actions: <Widget>[
+        IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: () => _startAddNewBook(context),
+        )
+      ],
+    );
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Flutter App'),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () => _startAddNewBook(context),
-          )
-        ],
-      ),
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
             //mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Chart(recentTransactions: _recentTransactions),
-              BookList(
-                books: _userBooks,
-                deleteTx: _deleteTransaction,
+              Container(
+                  height: (MediaQuery.of(context).size.height -
+                          appBar.preferredSize.height -
+                          MediaQuery.of(context).padding.top) *
+                      0.25,
+                  child: Chart(recentTransactions: _recentTransactions)),
+              Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        -MediaQuery.of(context).padding.top) *
+                    0.75,
+                child: BookList(
+                  books: _userBooks,
+                  deleteTx: _deleteTransaction,
+                ),
               ),
             ]),
       ),
