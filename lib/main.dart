@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+
 import 'widgets/chart.dart';
 
 import 'widgets/book_list.dart';
@@ -7,6 +9,11 @@ import 'package:flutter/material.dart';
 import 'models/book.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const MyApp());
 }
 
