@@ -1,4 +1,4 @@
-import 'package:flutter/services.dart';
+//import 'package:flutter/services.dart';
 
 import 'widgets/chart.dart';
 
@@ -9,11 +9,11 @@ import 'package:flutter/material.dart';
 import 'models/book.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+  /*WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-  ]);
+  ]);*/
   runApp(const MyApp());
 }
 
@@ -52,6 +52,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late Book newBk;
+  bool _showChart = false;
   final List<Book> _userBooks = [
     Book(
       id: 'p1',
@@ -80,10 +81,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<Book> get _recentTransactions {
-    return _userBooks.where((Tx) {
-      return Tx.date.isAfter(
+    return _userBooks.where((tx) {
+      return tx.date.isAfter(
         DateTime.now().subtract(
-          Duration(days: 7),
+          const Duration(days: 7),
         ),
       );
     }).toList();
@@ -117,6 +118,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     final appBar = AppBar(
       title: const Text('Flutter App'),
       actions: <Widget>[
@@ -126,6 +130,17 @@ class _HomeScreenState extends State<HomeScreen> {
         )
       ],
     );
+
+    final txListWidget = Container(
+      height: (MediaQuery.of(context).size.height -
+              appBar.preferredSize.height -
+              -MediaQuery.of(context).padding.top) *
+          0.75,
+      child: BookList(
+        books: _userBooks,
+        deleteTx: _deleteTransaction,
+      ),
+    );
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
@@ -133,22 +148,40 @@ class _HomeScreenState extends State<HomeScreen> {
             //mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Container(
+              if (isLandscape)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('Show Chart'),
+                    Switch(
+                      value: _showChart,
+                      onChanged: (val) {
+                        setState(() {
+                          _showChart = val;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              if (!isLandscape)
+                Container(
                   height: (MediaQuery.of(context).size.height -
                           appBar.preferredSize.height -
                           MediaQuery.of(context).padding.top) *
                       0.25,
-                  child: Chart(recentTransactions: _recentTransactions)),
-              Container(
-                height: (MediaQuery.of(context).size.height -
-                        appBar.preferredSize.height -
-                        -MediaQuery.of(context).padding.top) *
-                    0.75,
-                child: BookList(
-                  books: _userBooks,
-                  deleteTx: _deleteTransaction,
+                  child: Chart(recentTransactions: _recentTransactions),
                 ),
-              ),
+              if (!isLandscape) txListWidget,
+              if (isLandscape)
+                _showChart
+                    ? Container(
+                        height: (MediaQuery.of(context).size.height -
+                                appBar.preferredSize.height -
+                                MediaQuery.of(context).padding.top) *
+                            0.6,
+                        child: Chart(recentTransactions: _recentTransactions),
+                      )
+                    : txListWidget
             ]),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

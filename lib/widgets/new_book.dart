@@ -48,58 +48,65 @@ class _NewBookState extends State<NewBook> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        child: Column(children: <Widget>[
-          TextField(
-            decoration: const InputDecoration(labelText: 'Title'),
-            controller: _titleController,
-            onSubmitted: (_) => _submitData,
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
           ),
-          TextField(
-            decoration: const InputDecoration(labelText: 'Price'),
-            controller: _priceController,
-            keyboardType: TextInputType.number,
-            onSubmitted: (_) => _submitData,
-          ),
-          Container(
-            height: 80,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+          child: Column(children: <Widget>[
+            TextField(
+              decoration: const InputDecoration(labelText: 'Title'),
+              controller: _titleController,
+              onSubmitted: (_) => _submitData,
+            ),
+            TextField(
+              decoration: const InputDecoration(labelText: 'Price'),
+              controller: _priceController,
+              keyboardType: TextInputType.number,
+              onSubmitted: (_) => _submitData,
+            ),
+            Container(
+              height: 80,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      'Picked Date: ${DateFormat.yMEd().format(_selectDate)}',
+                    ),
+                  ),
+                  TextButton(
+                    child: Text('Choose Date'),
+                    style: TextButton.styleFrom(
+                      primary: Theme.of(context).primaryColor,
+                    ),
+                    onPressed: _presentDatePicker,
+                  ),
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Expanded(
-                  child: Text(
-                    'Picked Date: ${DateFormat.yMEd().format(_selectDate)}',
-                  ),
-                ),
-                TextButton(
-                  child: Text('Choose Date'),
-                  style: TextButton.styleFrom(
+                ElevatedButton(
+                  child: Text('Add Book'),
+                  style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).primaryColor,
+                    onPrimary: Theme.of(context).textTheme.button!.color,
                   ),
-                  onPressed: _presentDatePicker,
+                  onPressed: () {
+                    _submitData();
+                  },
                 ),
               ],
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              ElevatedButton(
-                child: Text('Add Book'),
-                style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).primaryColor,
-                  onPrimary: Theme.of(context).textTheme.button!.color,
-                ),
-                onPressed: () {
-                  _submitData();
-                },
-              ),
-            ],
-          ),
-        ]),
+          ]),
+        ),
       ),
     );
   }

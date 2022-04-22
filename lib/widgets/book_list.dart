@@ -13,15 +13,26 @@ class BookList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return books.isEmpty
-        ? Column(
-            children: <Widget>[
-              const Text('No Books added yet'),
-              Image.asset(
-                'assets/zzz.png',
-                fit: BoxFit.cover,
-              )
-            ],
-          )
+        ? LayoutBuilder(builder: (ctx, constraints) {
+            return Column(
+              children: <Widget>[
+                const Text(
+                  'No Books added yet',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: constraints.maxHeight * 0.4,
+                  child: Image.asset(
+                    'assets/zzz.png',
+                    fit: BoxFit.cover,
+                  ),
+                )
+              ],
+            );
+          })
         : ListView.builder(
             itemBuilder: (ctx, index) {
               return Card(
