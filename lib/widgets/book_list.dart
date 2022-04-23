@@ -58,11 +58,20 @@ class BookList extends StatelessWidget {
                   subtitle: Text(
                     DateFormat.yMMMd().format((books[index].date)),
                   ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    color: Theme.of(context).errorColor,
-                    onPressed: () => deleteTx(books[index].id),
-                  ),
+                  trailing: MediaQuery.of(context).size.width > 460
+                      ? TextButton.icon(
+                          label: const Text('Delete'),
+                          icon: const Icon(Icons.delete),
+                          style: TextButton.styleFrom(
+                            primary: Theme.of(context).errorColor,
+                          ),
+                          onPressed: () => deleteTx(books[index].id),
+                        )
+                      : IconButton(
+                          icon: const Icon(Icons.delete),
+                          color: Theme.of(context).errorColor,
+                          onPressed: () => deleteTx(books[index].id),
+                        ),
                 ),
               );
             },

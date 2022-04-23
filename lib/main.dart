@@ -1,5 +1,5 @@
 //import 'package:flutter/services.dart';
-
+import 'dart:io';
 import 'widgets/chart.dart';
 
 import 'widgets/book_list.dart';
@@ -118,8 +118,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
 
     final appBar = AppBar(
       title: const Text('Flutter App'),
@@ -132,9 +132,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     final txListWidget = Container(
-      height: (MediaQuery.of(context).size.height -
+      height: (mediaQuery.size.height -
               appBar.preferredSize.height -
-              -MediaQuery.of(context).padding.top) *
+              -mediaQuery.padding.top) *
           0.75,
       child: BookList(
         books: _userBooks,
@@ -153,7 +153,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text('Show Chart'),
-                    Switch(
+                    Switch.adaptive(
+                      activeColor: Theme.of(context).accentColor,
                       value: _showChart,
                       onChanged: (val) {
                         setState(() {
@@ -165,9 +166,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               if (!isLandscape)
                 Container(
-                  height: (MediaQuery.of(context).size.height -
+                  height: (mediaQuery.size.height -
                           appBar.preferredSize.height -
-                          MediaQuery.of(context).padding.top) *
+                          mediaQuery.padding.top) *
                       0.25,
                   child: Chart(recentTransactions: _recentTransactions),
                 ),
@@ -175,9 +176,9 @@ class _HomeScreenState extends State<HomeScreen> {
               if (isLandscape)
                 _showChart
                     ? Container(
-                        height: (MediaQuery.of(context).size.height -
+                        height: (mediaQuery.size.height -
                                 appBar.preferredSize.height -
-                                MediaQuery.of(context).padding.top) *
+                                mediaQuery.padding.top) *
                             0.6,
                         child: Chart(recentTransactions: _recentTransactions),
                       )
@@ -185,10 +186,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ]),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () => _startAddNewBook(context),
-      ),
+      floatingActionButton: Platform.isIOS
+          ? Container()
+          : FloatingActionButton(
+              child: const Icon(Icons.add),
+              onPressed: () => _startAddNewBook(context),
+            ),
     );
   }
 }
