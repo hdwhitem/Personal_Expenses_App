@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -59,17 +62,35 @@ class _NewBookState extends State<NewBook> {
             bottom: MediaQuery.of(context).viewInsets.bottom + 10,
           ),
           child: Column(children: <Widget>[
-            TextField(
-              decoration: const InputDecoration(labelText: 'Title'),
-              controller: _titleController,
-              onSubmitted: (_) => _submitData,
-            ),
-            TextField(
-              decoration: const InputDecoration(labelText: 'Price'),
-              controller: _priceController,
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => _submitData,
-            ),
+            Platform.isIOS
+                ? Container(
+                    margin: const EdgeInsets.all(10),
+                    child: CupertinoTextField(
+                        placeholder: 'Title',
+                        controller: _titleController,
+                        onSubmitted: (_) => _submitData,
+                        keyboardType: TextInputType.text),
+                  )
+                : TextField(
+                    decoration: const InputDecoration(labelText: 'Title'),
+                    controller: _titleController,
+                    onSubmitted: (_) => _submitData,
+                  ),
+            Platform.isIOS
+                ? Container(
+                    margin: const EdgeInsets.all(10),
+                    child: CupertinoTextField(
+                        placeholder: 'Price',
+                        controller: _priceController,
+                        onSubmitted: (_) => _submitData,
+                        keyboardType: TextInputType.number),
+                  )
+                : TextField(
+                    decoration: const InputDecoration(labelText: 'Price'),
+                    controller: _priceController,
+                    keyboardType: TextInputType.number,
+                    onSubmitted: (_) => _submitData,
+                  ),
             Container(
               height: 80,
               child: Row(
@@ -81,7 +102,7 @@ class _NewBookState extends State<NewBook> {
                     ),
                   ),
                   TextButton(
-                    child: Text('Choose Date'),
+                    child: const Text('Choose Date'),
                     style: TextButton.styleFrom(
                       primary: Theme.of(context).primaryColor,
                     ),
@@ -94,7 +115,7 @@ class _NewBookState extends State<NewBook> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 ElevatedButton(
-                  child: Text('Add Book'),
+                  child: const Text('Add Book'),
                   style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).primaryColor,
                     onPrimary: Theme.of(context).textTheme.button!.color,
