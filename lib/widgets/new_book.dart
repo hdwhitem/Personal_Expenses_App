@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 class NewBook extends StatefulWidget {
   final Function addTx;
 
-  NewBook({Key? key, required this.addTx}) : super(key: key);
+  const NewBook({Key? key, required this.addTx}) : super(key: key);
 
   @override
   State<NewBook> createState() => _NewBookState();
@@ -83,7 +83,8 @@ class _NewBookState extends State<NewBook> {
                         placeholder: 'Price',
                         controller: _priceController,
                         onSubmitted: (_) => _submitData,
-                        keyboardType: TextInputType.number),
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true)),
                   )
                 : TextField(
                     decoration: const InputDecoration(labelText: 'Price'),
@@ -91,7 +92,7 @@ class _NewBookState extends State<NewBook> {
                     keyboardType: TextInputType.number,
                     onSubmitted: (_) => _submitData,
                   ),
-            Container(
+            SizedBox(
               height: 80,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,

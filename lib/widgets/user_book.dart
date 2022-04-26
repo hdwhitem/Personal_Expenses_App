@@ -1,7 +1,4 @@
-import '/widgets/book_list.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'new_book.dart';
 import '../models/book.dart';
 
 // ignore: use_key_in_widget_constructors
@@ -43,6 +40,7 @@ class _UserBookState extends State<UserBook> {
     ),
   ];
 
+  // ignore: unused_element
   void _addNewBook(String txTitle, double txPrice) {
     setState(() {
       newBk = Book(
@@ -61,6 +59,7 @@ class _UserBookState extends State<UserBook> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      // ignore: prefer_const_literals_to_create_immutables
       children: <Widget>[
         // NewBook(addTx: _addNewBook),
       ],

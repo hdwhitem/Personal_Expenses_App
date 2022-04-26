@@ -1,4 +1,3 @@
-//import 'package:flutter/services.dart';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 
@@ -33,6 +32,7 @@ class _MyAppState extends State<MyApp> {
       title: 'MyApp',
       theme: ThemeData(
           primarySwatch: Colors.purple,
+          // ignore: deprecated_member_use
           accentColor: Colors.amber,
           fontFamily: 'Quicksand',
           textTheme: ThemeData.light().textTheme.copyWith(
@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
                 color: Colors.white,
               ))),
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: const HomeScreen(),
     );
   }
 }
@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Book> _userBooks = [
     Book(
       id: 'p1',
-      title: 'Beginning Flutter With Dart',
+      title: 'Beginning Flutter',
       description: 'You can learn Flutter as well Dart.',
       price: 9.99,
       date: DateTime.now(),
@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.grey,
         context: ctx,
         builder: (BuildContext ctx) {
-          return Container(
+          return SizedBox(
             width: 300,
             height: 550,
             child: GestureDetector(
@@ -123,10 +123,11 @@ class _HomeScreenState extends State<HomeScreen> {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
 
+    // ignore: prefer_typing_uninitialized_variables
     final appBar;
     if (Platform.isIOS) {
       appBar = CupertinoNavigationBar(
-        middle: Text('Personal Expenses'),
+        middle: const Text('Personal Expenses'),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -152,17 +153,18 @@ class _HomeScreenState extends State<HomeScreen> {
     final txListWidget = Container(
       height: (mediaQuery.size.height -
               appBar.preferredSize.height -
-              -mediaQuery.padding.top) *
-          0.75,
+              -mediaQuery.padding.top -
+              -mediaQuery.padding.bottom) *
+          0.7,
       child: BookList(
         books: _userBooks,
         deleteTx: _deleteTransaction,
       ),
     );
+
     final pageBody = SafeArea(
         child: SingleChildScrollView(
       child: Column(
-          //mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             if (isLandscape)
@@ -174,6 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Switch.adaptive(
+                    // ignore: deprecated_member_use
                     activeColor: Theme.of(context).accentColor,
                     value: _showChart,
                     onChanged: (val) {
@@ -188,21 +191,23 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 height: (mediaQuery.size.height -
                         appBar.preferredSize.height -
-                        mediaQuery.padding.top) *
-                    0.23,
+                        -mediaQuery.padding.top -
+                        -mediaQuery.padding.bottom) *
+                    0.2,
                 child: Chart(recentTransactions: _recentTransactions),
               ),
             if (!isLandscape) txListWidget,
             if (isLandscape)
-              _showChart
-                  ? Container(
-                      height: (mediaQuery.size.height -
-                              appBar.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          0.6,
-                      child: Chart(recentTransactions: _recentTransactions),
-                    )
-                  : txListWidget
+              if (_showChart)
+                Container(
+                  height: (mediaQuery.size.height -
+                          appBar.preferredSize.height -
+                          -mediaQuery.padding.top -
+                          -mediaQuery.padding.bottom) *
+                      0.6,
+                  child: Chart(recentTransactions: _recentTransactions),
+                ),
+            txListWidget
           ]),
     ));
 

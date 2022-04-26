@@ -1,5 +1,5 @@
+import '/widgets/transaction_item.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import '../models/book.dart';
 
 // ignore: use_key_in_widget_constructors
@@ -7,7 +7,7 @@ class BookList extends StatelessWidget {
   final List<Book> books;
   final Function deleteTx;
 
-  BookList({Key? key, required this.books, required this.deleteTx})
+  const BookList({Key? key, required this.books, required this.deleteTx})
       : super(key: key);
 
   @override
@@ -35,45 +35,7 @@ class BookList extends StatelessWidget {
           })
         : ListView.builder(
             itemBuilder: (ctx, index) {
-              return Card(
-                elevation: 5,
-                margin: const EdgeInsets.symmetric(
-                  vertical: 4,
-                  horizontal: 8,
-                ),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 30,
-                    child: Padding(
-                      padding: const EdgeInsets.all(6),
-                      child: FittedBox(
-                        child: Text('\$${books[index].price}'),
-                      ),
-                    ),
-                  ),
-                  title: Text(
-                    books[index].title,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  subtitle: Text(
-                    DateFormat.yMMMd().format((books[index].date)),
-                  ),
-                  trailing: MediaQuery.of(context).size.width > 460
-                      ? TextButton.icon(
-                          label: const Text('Delete'),
-                          icon: const Icon(Icons.delete),
-                          style: TextButton.styleFrom(
-                            primary: Theme.of(context).errorColor,
-                          ),
-                          onPressed: () => deleteTx(books[index].id),
-                        )
-                      : IconButton(
-                          icon: const Icon(Icons.delete),
-                          color: Theme.of(context).errorColor,
-                          onPressed: () => deleteTx(books[index].id),
-                        ),
-                ),
-              );
+              return TransactionItem(book: books[index], deleteTx: deleteTx);
             },
             itemCount: books.length,
           );

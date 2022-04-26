@@ -6,7 +6,7 @@ import '../models/book.dart';
 class Chart extends StatelessWidget {
   final List<Book> recentTransactions;
 
-  Chart({Key? key, required this.recentTransactions}) : super(key: key);
+  const Chart({Key? key, required this.recentTransactions}) : super(key: key);
 
   List<Map<String, dynamic>> get groupedTransactionValues {
     return List.generate(7, (index) {
@@ -33,12 +33,11 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(groupedTransactionValues);
     return Card(
       elevation: 6,
-      margin: EdgeInsets.all(20),
+      margin: const EdgeInsets.all(10),
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: groupedTransactionValues.map((data) {
