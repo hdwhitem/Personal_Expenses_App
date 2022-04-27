@@ -165,15 +165,9 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    final isLandscape = mediaQuery.orientation == Orientation.landscape;
-
-    // ignore: prefer_typing_uninitialized_variables
-    final appBar;
+  Widget _buildAppBar() {
     if (Platform.isIOS) {
-      appBar = CupertinoNavigationBar(
+      return CupertinoNavigationBar(
         middle: const Text('Personal Expenses'),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
@@ -186,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       );
     } else {
-      appBar = AppBar(
+      return AppBar(
         title: const Text('Flutter App'),
         actions: <Widget>[
           IconButton(
@@ -196,6 +190,15 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       );
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
+
+    // ignore: prefer_typing_uninitialized_variables
+    final appBar = _buildAppBar() as PreferredSizeWidget;
 
     final txListWidget = Container(
       height: (mediaQuery.size.height -
@@ -214,15 +217,17 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            if (isLandscape) ..._buildLandscapeContent(appBar, txListWidget),
-            if (!isLandscape) ..._buildPortraitContent(appBar, txListWidget),
+            if (isLandscape)
+              ..._buildLandscapeContent(appBar as AppBar, txListWidget),
+            if (!isLandscape)
+              ..._buildPortraitContent(appBar as AppBar, txListWidget),
           ]),
     ));
 
     return Platform.isIOS
         ? CupertinoPageScaffold(
             child: pageBody,
-            navigationBar: appBar,
+            navigationBar: appBar as ObstructingPreferredSizeWidget,
           )
         : Scaffold(
             appBar: appBar,
