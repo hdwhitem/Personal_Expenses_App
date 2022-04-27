@@ -118,6 +118,53 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  List<Widget> _buildLandscapeContent(AppBar appBar, Widget txListWidget) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'Show Chart',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          Switch.adaptive(
+            // ignore: deprecated_member_use
+            activeColor: Theme.of(context).accentColor,
+            value: _showChart,
+            onChanged: (val) {
+              setState(() {
+                _showChart = val;
+              });
+            },
+          ),
+        ],
+      ),
+      if (_showChart)
+        Container(
+          height: (MediaQuery.of(context).size.height -
+                  appBar.preferredSize.height -
+                  -MediaQuery.of(context).padding.top) *
+              0.5,
+          child: Chart(recentTransactions: _recentTransactions),
+        ),
+      if (!_showChart) txListWidget
+    ];
+  }
+
+  List<Widget> _buildPortraitContent(AppBar appBar, Widget txListWidget) {
+    return [
+      Container(
+        height: (MediaQuery.of(context).size.height -
+                appBar.preferredSize.height -
+                -MediaQuery.of(context).padding.top -
+                MediaQuery.of(context).padding.bottom) *
+            0.2,
+        child: Chart(recentTransactions: _recentTransactions),
+      ),
+      txListWidget
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -154,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
       height: (mediaQuery.size.height -
               appBar.preferredSize.height -
               -mediaQuery.padding.top -
-              -mediaQuery.padding.bottom) *
+              mediaQuery.padding.bottom) *
           0.7,
       child: BookList(
         books: _userBooks,
@@ -167,47 +214,8 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Show Chart',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  Switch.adaptive(
-                    // ignore: deprecated_member_use
-                    activeColor: Theme.of(context).accentColor,
-                    value: _showChart,
-                    onChanged: (val) {
-                      setState(() {
-                        _showChart = val;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            if (!isLandscape)
-              Container(
-                height: (mediaQuery.size.height -
-                        appBar.preferredSize.height -
-                        -mediaQuery.padding.top -
-                        -mediaQuery.padding.bottom) *
-                    0.2,
-                child: Chart(recentTransactions: _recentTransactions),
-              ),
-            if (!isLandscape) txListWidget,
-            if (isLandscape)
-              if (_showChart)
-                Container(
-                  height: (mediaQuery.size.height -
-                          appBar.preferredSize.height -
-                          -mediaQuery.padding.top -
-                          -mediaQuery.padding.bottom) *
-                      0.6,
-                  child: Chart(recentTransactions: _recentTransactions),
-                ),
-            txListWidget
+            if (isLandscape) ..._buildLandscapeContent(appBar, txListWidget),
+            if (!isLandscape) ..._buildPortraitContent(appBar, txListWidget),
           ]),
     ));
 
