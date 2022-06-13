@@ -1,10 +1,10 @@
 import '/widgets/chart_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../models/book.dart';
+import '../models/transaction.dart';
 
 class Chart extends StatelessWidget {
-  final List<Book> recentTransactions;
+  final List<Transaction> recentTransactions;
 
   const Chart({Key? key, required this.recentTransactions}) : super(key: key);
 

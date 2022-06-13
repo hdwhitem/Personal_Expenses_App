@@ -1,23 +1,24 @@
 import '/widgets/transaction_item.dart';
 import 'package:flutter/material.dart';
-import '../models/book.dart';
+import '../models/transaction.dart';
 
 // ignore: use_key_in_widget_constructors
-class BookList extends StatelessWidget {
-  final List<Book> books;
+class TransactionList extends StatelessWidget {
+  final List<Transaction> transactions;
   final Function deleteTx;
 
-  const BookList({Key? key, required this.books, required this.deleteTx})
+  const TransactionList(
+      {Key? key, required this.transactions, required this.deleteTx})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return books.isEmpty
+    return transactions.isEmpty
         ? LayoutBuilder(builder: (ctx, constraints) {
             return Column(
               children: <Widget>[
                 Text(
-                  'No Books added yet',
+                  'No transactions added yet',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(
@@ -35,9 +36,10 @@ class BookList extends StatelessWidget {
           })
         : ListView.builder(
             itemBuilder: (ctx, index) {
-              return TransactionItem(book: books[index], deleteTx: deleteTx);
+              return TransactionItem(
+                  transaction: transactions[index], deleteTx: deleteTx);
             },
-            itemCount: books.length,
+            itemCount: transactions.length,
           );
   }
 }

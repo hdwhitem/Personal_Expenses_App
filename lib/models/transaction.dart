@@ -1,4 +1,4 @@
-class Book {
+class Transaction {
   final String id;
   final String title;
   final String description;
@@ -6,7 +6,7 @@ class Book {
   final String imageUrl;
   final DateTime date;
 
-  Book({
+  Transaction({
     required this.id,
     required this.title,
     required this.description,

@@ -3,11 +3,11 @@ import 'package:flutter/cupertino.dart';
 
 import 'widgets/chart.dart';
 
-import 'widgets/book_list.dart';
-import 'widgets/new_book.dart';
+import 'widgets/transaction_list.dart';
+import 'widgets/new_transaction.dart';
 import 'package:flutter/material.dart';
 
-import 'models/book.dart';
+import 'models/transaction.dart';
 
 void main() {
   /*WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'MyApp',
+      title: 'Personal Expenses',
       theme: ThemeData(
           primarySwatch: Colors.purple,
           // ignore: deprecated_member_use
@@ -53,23 +53,23 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Book newBk;
+  late Transaction newTrans;
   bool _showChart = false;
-  final List<Book> _userBooks = [
-    Book(
+  final List<Transaction> _userTransactions = [
+    Transaction(
       id: 'p1',
       title: 'Beginning Flutter',
       description: 'You can learn Flutter as well Dart.',
       price: 9.99,
       date: DateTime.now(),
       imageUrl:
-          'https://cdn.pixabay.com/photo/2014/09/05/18/32/old-books-436498_960_720.jpg',
+          'https://cdn.pixabay.com/photo/2014/09/05/18/32/old-s-436498_960_720.jpg',
     ),
   ];
 
-  void _addNewBook(String txTitle, double txPrice, DateTime chosenDate) {
+  void _addNewTransaction(String txTitle, double txPrice, DateTime chosenDate) {
     setState(() {
-      newBk = Book(
+      newTrans = Transaction(
         title: txTitle,
         price: txPrice,
         description: 'Flutter State Management',
@@ -78,12 +78,12 @@ class _HomeScreenState extends State<HomeScreen> {
             'https://cdn.pixabay.com/photo/2015/11/19/21/10/glasses-1052010_960_720.jpg',
         date: chosenDate,
       );
-      _userBooks.add(newBk);
+      _userTransactions.add(newTrans);
     });
   }
 
-  List<Book> get _recentTransactions {
-    return _userBooks.where((tx) {
+  List<Transaction> get _recentTransactions {
+    return _userTransactions.where((tx) {
       return tx.date.isAfter(
         DateTime.now().subtract(
           const Duration(days: 7),
@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }).toList();
   }
 
-  void _startAddNewBook(BuildContext ctx) {
+  void _startAddNewTransaction(BuildContext ctx) {
     showModalBottomSheet(
         elevation: 2,
         backgroundColor: Colors.grey,
@@ -104,8 +104,8 @@ class _HomeScreenState extends State<HomeScreen> {
             child: GestureDetector(
               onTap: () {},
               behavior: HitTestBehavior.opaque,
-              child: NewBook(
-                addTx: _addNewBook,
+              child: NewTransaction(
+                addTx: _addNewTransaction,
               ),
             ),
           );
@@ -114,11 +114,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _deleteTransaction(String id) {
     setState(() {
-      _userBooks.removeWhere((tx) => tx.id == id);
+      _userTransactions.removeWhere((tx) => tx.id == id);
     });
   }
 
-  List<Widget> _buildLandscapeContent(AppBar appBar, Widget txListWidget) {
+  List<Widget> _buildLandscapeContent(
+      PreferredSizeWidget appBar, Widget txListWidget) {
     return [
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -151,7 +152,8 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
   }
 
-  List<Widget> _buildPortraitContent(AppBar appBar, Widget txListWidget) {
+  List<Widget> _buildPortraitContent(
+      PreferredSizeWidget appBar, Widget txListWidget) {
     return [
       Container(
         height: (MediaQuery.of(context).size.height -
@@ -174,18 +176,18 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             GestureDetector(
               child: const Icon(CupertinoIcons.add),
-              onTap: () => _startAddNewBook(context),
+              onTap: () => _startAddNewTransaction(context),
             )
           ],
         ),
       );
     } else {
       return AppBar(
-        title: const Text('Flutter App'),
+        title: const Text('Personal Expenses'),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: () => _startAddNewBook(context),
+            onPressed: () => _startAddNewTransaction(context),
           )
         ],
       );
@@ -197,8 +199,10 @@ class _HomeScreenState extends State<HomeScreen> {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
 
-    // ignore: prefer_typing_uninitialized_variables
     final appBar = _buildAppBar() as PreferredSizeWidget;
+
+    final LandscapeAppBar =
+        Platform.isIOS ? CupertinoNavigationBar() : AppBar();
 
     final txListWidget = Container(
       height: (mediaQuery.size.height -
@@ -206,8 +210,8 @@ class _HomeScreenState extends State<HomeScreen> {
               -mediaQuery.padding.top -
               mediaQuery.padding.bottom) *
           0.7,
-      child: BookList(
-        books: _userBooks,
+      child: TransactionList(
+        transactions: _userTransactions,
         deleteTx: _deleteTransaction,
       ),
     );
@@ -218,9 +222,11 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             if (isLandscape)
-              ..._buildLandscapeContent(appBar as AppBar, txListWidget),
+              ..._buildLandscapeContent(
+                  LandscapeAppBar as PreferredSizeWidget, txListWidget),
             if (!isLandscape)
-              ..._buildPortraitContent(appBar as AppBar, txListWidget),
+              ..._buildPortraitContent(
+                  LandscapeAppBar as PreferredSizeWidget, txListWidget),
           ]),
     ));
 
@@ -238,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ? Container()
                 : FloatingActionButton(
                     child: const Icon(Icons.add),
-                    onPressed: () => _startAddNewBook(context),
+                    onPressed: () => _startAddNewTransaction(context),
                   ),
           );
   }

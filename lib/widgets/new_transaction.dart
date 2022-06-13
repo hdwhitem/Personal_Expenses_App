@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 // ignore: use_key_in_widget_constructors
-class NewBook extends StatefulWidget {
+class NewTransaction extends StatefulWidget {
   final Function addTx;
 
-  const NewBook({Key? key, required this.addTx}) : super(key: key);
+  const NewTransaction({Key? key, required this.addTx}) : super(key: key);
 
   @override
-  State<NewBook> createState() => _NewBookState();
+  State<NewTransaction> createState() => _NewTransactionState();
 }
 
-class _NewBookState extends State<NewBook> {
+class _NewTransactionState extends State<NewTransaction> {
   final _titleController = TextEditingController();
   final _priceController = TextEditingController();
   DateTime _selectDate = DateTime.now();
@@ -116,7 +116,7 @@ class _NewBookState extends State<NewBook> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 ElevatedButton(
-                  child: const Text('Add Book'),
+                  child: const Text('Add transaction'),
                   style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).primaryColor,
                     onPrimary: Theme.of(context).textTheme.button!.color,
